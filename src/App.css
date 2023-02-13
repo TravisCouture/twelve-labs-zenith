@@ -1,0 +1,31 @@
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+* {
+-ms-overflow-style: none !important;
+}
+
+body {
+  overflow: hidden;
+}
+
+.btn-primary {
+  background-color: #ff8d3a;
+  border-color: #ff8d3a;
+}
+
+.btn-primary:hover {
+  background-color: #ef6b09;
+  border-color: #ff8d3a;
+}
+
+.scroll-row {
+  height: 100vh;
+}
+
+.scroll-col {
+  height: 90%;
+  overflow-y: scroll;
+}
