@@ -2,6 +2,11 @@ import React from "react";
 import RangeSlider from 'react-range-slider-input';
 import 'react-range-slider-input/dist/style.css';
 import ReactPlayer from "react-player/youtube";
+import { getSimilarVideos } from "./Api";
+
+const API_URL = process.env.REACT_APP_TWELVE_LABS_API_URL;
+const API_KEY = process.env.REACT_APP_TWELVE_LABS_API_KEY;
+const VIDEO_TO_VIDEO_INDEX = process.env.REACT_APP_TWELVE_LABS_VIDEO_VIDEO_INDEX;
 
 function FocusVideoCard( { focusVideoState, setFocusVideoState, videoData, url }) {
     const videoElement = React.createRef();;
@@ -9,7 +14,11 @@ function FocusVideoCard( { focusVideoState, setFocusVideoState, videoData, url }
 
     React.useEffect(() => {
         videoElement.current.seekTo(focusVideoState.startThumb, 'seconds');
-    });
+    }, [focusVideoState.startThumb, focusVideoState.endThumb]);
+
+    const handleFindSimilarVideos = () => {
+        getSimilarVideos(API_URL, API_KEY, VIDEO_TO_VIDEO_INDEX, videoData._id, focusVideoState.startThumb, focusVideoState.endThumb);
+    }
 
     const handleLoadedMetadata = (duration) => {
         if ( !videoElement ) {
@@ -35,6 +44,8 @@ function FocusVideoCard( { focusVideoState, setFocusVideoState, videoData, url }
 
             rangeSlider.current.value.max = duration;
         };
+
+        rangeSlider.current.value.min = 0;
     };
 
     const handleRangeSlider = () => {
@@ -70,18 +81,20 @@ function FocusVideoCard( { focusVideoState, setFocusVideoState, videoData, url }
                     muted={ true }
                     controls={ true }
                     playsinline={ true }
+                    playing={ true }
                     onDuration={ handleLoadedMetadata }
                     ref={ videoElement }
                     height={ videoData.metadata.height }
                     width="auto"
                     light={ true }
-                    playing={ true }
                     config={{ youtube: { playerVars: { origin: 'http://localhost:3000/', enablejsapi: 1 } } }}
                 />
                 <div className="card-body">
                     <h5 className="card-title">{ videoData.metadata.filename }</h5>
                     <p className="card-text">{ videoData.metadata.duration }</p>
-                    <button className="btn btn-primary mb-3">Find Similar Videos</button>
+                    <button className="btn btn-primary mb-3" onClick={ handleFindSimilarVideos }>
+                        Find Similar Videos
+                    </button>
                     <RangeSlider
                         className="mb-3"
                         min={ focusVideoState.focusVideoStart } 
@@ -92,8 +105,12 @@ function FocusVideoCard( { focusVideoState, setFocusVideoState, videoData, url }
                         ref={ rangeSlider }
                     />
                     <p className="card-text text-center">
-                        Start: { Math.round(focusVideoState.startThumb) } seconds <br/>
-                        End: { Math.round(focusVideoState.endThumb) } seconds
+                        <button className="btn btn-primary m-1" onClick={() => { videoElement.current.seekTo(focusVideoState.startThumb)}}>
+                            Start: { Math.round(focusVideoState.startThumb) } seconds
+                        </button>
+                        <button className="btn btn-primary m-1" onClick={() => { videoElement.current.seekTo(focusVideoState.endThumb)}}>
+                            End: { Math.round(focusVideoState.endThumb) } seconds
+                        </button>
                     </p>
                 </div>
             </div>
