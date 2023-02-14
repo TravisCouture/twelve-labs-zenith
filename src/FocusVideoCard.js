@@ -2,25 +2,14 @@ import React from "react";
 import RangeSlider from 'react-range-slider-input';
 import 'react-range-slider-input/dist/style.css';
 
-const videoData = {
-    url: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
-    title: "Test",
-    description: "This is a test description. The dragons are breathing fire."
-};
+const URL = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4";
 
-function FocusVideoCard() {
-    const [videoState, setVideoState] = React.useState({
-        videoStart: 0,
-        videoEnd: 100,
-        startThumb: 0,
-        endThumb: 100
-    });
-
+function FocusVideoCard( { focusVideoState, setFocusVideoState, videoData }) {
     const videoElement = React.createRef();
     const rangeSlider = React.createRef();
 
     React.useEffect(() => {
-        videoElement.current.currentTime = videoState.startThumb;
+        videoElement.current.currentTime = focusVideoState.startThumb;
     });
 
     const handleLoadedMetadata = () => {
@@ -29,18 +18,20 @@ function FocusVideoCard() {
         }
 
         if ( videoElement.current.duration > 30 ) {
-            setVideoState({
-                ...videoState,
-                videoEnd: videoElement.current.duration,
+            setFocusVideoState({
+                focusVideoStart: 0,
+                focusVideoEnd: Math.round(videoElement.current.duration),
+                startThumb: 0,
                 endThumb: 30
             });
 
             rangeSlider.current.value.max = 30;
         } else {
-            setVideoState({
-                ...videoState,
-                videoEnd: videoElement.current.duration,
-                endThumb: videoElement.current.duration
+            setFocusVideoState({
+                focusVideoStart: 0,
+                focusVideoEnd: Math.round(videoElement.current.duration),
+                startThumb: 0,
+                endThumb: Math.round(videoElement.current.duration)
             });
 
             rangeSlider.current.value.max = videoElement.current.duration;
@@ -49,20 +40,20 @@ function FocusVideoCard() {
 
     const handleRangeSlider = () => {
         let thumbDiff = rangeSlider.current.value.max - rangeSlider.current.value.min;
-        let endThumbSet = ( videoState.endThumb === rangeSlider.current.value.max ) ? false : true;
-        let rangeModifier = Math.round( thumbDiff - 30);
+        let endThumbSet = ( focusVideoState.endThumb === rangeSlider.current.value.max ) ? false : true;
+        let rangeModifier = Math.max(Math.round( thumbDiff - 30), 0);
 
         if ( endThumbSet ) {
-            setVideoState({
-                ...videoState,
+            setFocusVideoState({
+                ...focusVideoState,
                 startThumb: ( rangeSlider.current.value.min + rangeModifier ),
                 endThumb: rangeSlider.current.value.max
             });
 
             rangeSlider.current.value.min = rangeSlider.current.value.min + rangeModifier;
         } else {
-            setVideoState({
-                ...videoState,
+            setFocusVideoState({
+                ...focusVideoState,
                 startThumb: rangeSlider.current.value.min,
                 endThumb: ( rangeSlider.current.value.max - rangeModifier )
             });
@@ -75,30 +66,33 @@ function FocusVideoCard() {
         <div className="col">
             <div className="card shadow">
                 <video 
-                    className="card-img-top" 
-                    src={ videoData.url } 
+                    className="card-img-top focus-video" 
+                    src={ URL}
                     controls 
                     playsInline 
                     preload="metadata" 
                     onLoadedMetadata={ handleLoadedMetadata }
+                    onChange={ handleLoadedMetadata }
                     ref={ videoElement }
+                    height={ videoData.metadata.height }
+                    width={ videoData.metadata.width }
                 />
                 <div className="card-body">
-                    <h5 className="card-title">{ videoData.title }</h5>
-                    <p className="card-text">{ videoData.description }</p>
+                    <h5 className="card-title">{ videoData.metadata.filename }</h5>
+                    <p className="card-text">{ videoData.metadata.duration }</p>
                     <button className="btn btn-primary mb-3">Find Similar Videos</button>
                     <RangeSlider
                         className="mb-3"
-                        min={ videoState.videoStart } 
-                        max={ videoState.videoEnd }
-                        defaultValue={ [videoState.startThumb, videoState.endThumb] }
+                        min={ focusVideoState.focusVideoStart } 
+                        max={ focusVideoState.focusVideoEnd }
+                        defaultValue={ [focusVideoState.startThumb, focusVideoState.endThumb] }
                         onThumbDragEnd={ handleRangeSlider }
                         onRangeDragEnd={ handleRangeSlider }
                         ref={ rangeSlider }
                     />
                     <p className="card-text text-center">
-                        Start: { Math.round(videoState.startThumb) } seconds <br/>
-                        End: { Math.round(videoState.endThumb) } seconds
+                        Start: { Math.round(focusVideoState.startThumb) } seconds <br/>
+                        End: { Math.round(focusVideoState.endThumb) } seconds
                     </p>
                 </div>
             </div>
