@@ -34,4 +34,12 @@ body {
   width: auto;
   height: auto;
   max-height: 50vh;
+  min-height: 25vh;
+}
+
+.video-library-card {
+    width: auto;
+    height: auto;
+    max-height: 50vh;
+    min-height: 20vh;
 }
