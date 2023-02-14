@@ -1,6 +1,6 @@
 import React from "react";
 
-function VideoCard({ videoData }) {
+function VideoCard({ setFocusVideo, videoData }) {
     return (
         <div className="col">
             <div className="card shadow mb-2">
@@ -8,7 +8,7 @@ function VideoCard({ videoData }) {
                 <div className="card-body">
                     <h5 className="card-title">{ videoData.metadata.filename }</h5>
                     <p className="card-text">{ videoData.metadata.duration }</p>
-                    <button className="btn btn-primary">Select</button>
+                    <button className="btn btn-primary" onClick={ () => setFocusVideo(videoData)}>Select</button>
                 </div>
             </div>
         </div>
