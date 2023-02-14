@@ -18,7 +18,7 @@ function VideoCard({ setFocusVideo, videoData, url }) {
                 />
                 <div className="card-body">
                     <h5 className="card-title">{ `${videoData.metadata.filename.split("-")[0]}` }</h5>
-                    <p className="card-text">{ videoData.metadata.duration }</p>
+                    <p className="card-text">{ `${Math.round(videoData.metadata.duration / 60)} minutes` }</p>
                     <button className="btn btn-primary" onClick={ () => setFocusVideo(videoData)}>Select</button>
                 </div>
             </div>
