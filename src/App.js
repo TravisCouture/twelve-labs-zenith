@@ -12,7 +12,7 @@ const videoData = {
 function App() {
   return (
     <div className="App">
-      <nav className="navbar sticky-top">
+      <nav className="navbar sticky-top mb-2">
         <div className="container-fluid">
           <a className="navbar-brand" href="/">
             <img src={ LOGO } alt="Logo" className="d-inline-block align-text-top" />
