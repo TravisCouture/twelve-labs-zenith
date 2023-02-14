@@ -12,13 +12,18 @@ body {
 }
 
 .btn-primary {
-  background-color: #ff8d3a;
-  border-color: #ff8d3a;
+  background-color: #ff8d3a !important;
+  border-color: #ff8d3a !important;
 }
 
 .btn-primary:hover {
-  background-color: #ef6b09;
-  border-color: #ff8d3a;
+  background-color: #ef6b09 !important;
+  border-color: #ff8d3a !important;
+}
+
+.btn-primary:active, .btn-primary:focus {
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 .scroll-row {
