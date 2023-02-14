@@ -1,5 +1,5 @@
-import './App.css';
 import VideoLibrary from './VideoLibrary';
+import './App.css';
 
 const LOGO = "https://twelvelabs.io/logo.png";
 
