@@ -1,12 +1,23 @@
 import React from "react";
+import ReactPlayer from "react-player/youtube";
 
-function VideoCard({ setFocusVideo, videoData }) {
+function VideoCard({ setFocusVideo, videoData, url }) {
     return (
         <div className="col">
-            <div className="card shadow mb-2">
-                <video className="card-img-top" src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" controls preload="metadata" playsInline/>
+            <div className="card shadow mb-2 video-library-card">
+                <ReactPlayer 
+                    className="card-img-top"
+                    url={ url }
+                    muted={ true }
+                    controls={ true }
+                    playsinline={ true }
+                    height={ videoData.metadata.height }
+                    width="auto"
+                    light={ true }
+                    config={{ youtube: { playerVars: { origin: 'http://localhost:3000/', enablejsapi: 1 } } }}
+                />
                 <div className="card-body">
-                    <h5 className="card-title">{ videoData.metadata.filename }</h5>
+                    <h5 className="card-title">{ `${videoData.metadata.filename.split("-")[0]}` }</h5>
                     <p className="card-text">{ videoData.metadata.duration }</p>
                     <button className="btn btn-primary" onClick={ () => setFocusVideo(videoData)}>Select</button>
                 </div>
