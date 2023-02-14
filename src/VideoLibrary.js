@@ -27,7 +27,7 @@ function VideoLibrary() {
         response.then((json) => {
             setIndexVideos(json.data);
             setFocusVideo(json.data[0]);
-            setSearchVideos(json.data.length)
+            setSearchVideos(json.data);
         });
     }, []);
 
@@ -49,7 +49,7 @@ function VideoLibrary() {
                         <div className="col scroll-col">
                             <div className="row row-cols-3">
                                 { 
-                                    indexVideos.map((video, index) => 
+                                    searchVideos.map((video, index) => 
                                         <VideoCard setFocusVideo={ setFocusVideo } 
                                         videoData={ video } 
                                         key={ index } 
