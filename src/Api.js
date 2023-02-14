@@ -1,5 +1,5 @@
 export async function getVideos (api_url, index_id, api_key) {
-    const  videos_url = `${api_url}/indexes/${index_id}/videos`;
+    const  videos_url = `${api_url}/indexes/${index_id}/videos?page_limit=50`;
 
     const options = {
         method: "GET",
