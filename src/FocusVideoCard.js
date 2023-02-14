@@ -1,26 +1,25 @@
 import React from "react";
 import RangeSlider from 'react-range-slider-input';
 import 'react-range-slider-input/dist/style.css';
+import ReactPlayer from "react-player/youtube";
 
-const URL = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4";
-
-function FocusVideoCard( { focusVideoState, setFocusVideoState, videoData }) {
-    const videoElement = React.createRef();
+function FocusVideoCard( { focusVideoState, setFocusVideoState, videoData, url }) {
+    const videoElement = React.createRef();;
     const rangeSlider = React.createRef();
 
     React.useEffect(() => {
-        videoElement.current.currentTime = focusVideoState.startThumb;
+        videoElement.current.seekTo(focusVideoState.startThumb, 'seconds');
     });
 
-    const handleLoadedMetadata = () => {
+    const handleLoadedMetadata = (duration) => {
         if ( !videoElement ) {
             return;
         }
 
-        if ( videoElement.current.duration > 30 ) {
+        if ( duration > 30 ) {
             setFocusVideoState({
                 focusVideoStart: 0,
-                focusVideoEnd: Math.round(videoElement.current.duration),
+                focusVideoEnd: Math.round(duration),
                 startThumb: 0,
                 endThumb: 30
             });
@@ -29,12 +28,12 @@ function FocusVideoCard( { focusVideoState, setFocusVideoState, videoData }) {
         } else {
             setFocusVideoState({
                 focusVideoStart: 0,
-                focusVideoEnd: Math.round(videoElement.current.duration),
+                focusVideoEnd: Math.round(duration),
                 startThumb: 0,
-                endThumb: Math.round(videoElement.current.duration)
+                endThumb: Math.round(duration)
             });
 
-            rangeSlider.current.value.max = videoElement.current.duration;
+            rangeSlider.current.value.max = duration;
         };
     };
 
@@ -65,17 +64,19 @@ function FocusVideoCard( { focusVideoState, setFocusVideoState, videoData }) {
     return(
         <div className="col">
             <div className="card shadow">
-                <video 
+                <ReactPlayer 
                     className="card-img-top focus-video" 
-                    src={ URL}
-                    controls 
-                    playsInline 
-                    preload="metadata" 
-                    onLoadedMetadata={ handleLoadedMetadata }
-                    onChange={ handleLoadedMetadata }
+                    url={ url }
+                    muted={ true }
+                    controls={ true }
+                    playsinline={ true }
+                    onDuration={ handleLoadedMetadata }
                     ref={ videoElement }
                     height={ videoData.metadata.height }
-                    width={ videoData.metadata.width }
+                    width="auto"
+                    light={ true }
+                    playing={ true }
+                    config={{ youtube: { playerVars: { origin: 'http://localhost:3000/', enablejsapi: 1 } } }}
                 />
                 <div className="card-body">
                     <h5 className="card-title">{ videoData.metadata.filename }</h5>
