@@ -48,3 +48,13 @@ body {
     max-height: 50vh;
     min-height: 20vh;
 }
+
+.range-slider .range-slider__range {
+  color: #ff8d3a;
+  background: #ff8d3a;
+}
+
+.range-slider .range-slider__thumb {
+  color: #ef6b09;
+  background: #ef6b09;
+}
