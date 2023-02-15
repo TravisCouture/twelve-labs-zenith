@@ -33,7 +33,6 @@ export async function getSimilarVideos(api_url, api_key, index_id, video_id, sta
         })
     };
 
-    console.log("Sending POST request");
     const response = await fetch(v2v_search_url, options);
-    console.log(await response.then((json) => {return json}));
+    return await response.json();
 };
