@@ -27,9 +27,26 @@ function VideoLibrary() {
         response.then((json) => {
             setIndexVideos(json.data);
             setFocusVideo(json.data[0]);
-            setSearchVideos(json.data);
         });
     }, []);
+
+    let videoLibrary;
+
+    if (searchVideos) {
+        videoLibrary = searchVideos.map((video, index) => 
+                <VideoCard setFocusVideo={ setFocusVideo } 
+                    videoData={ video } 
+                    key={ index } 
+                    url={ video_to_youtube_data[video.video_id].youtube_url } 
+                />)
+    } else if (indexVideos) {
+        videoLibrary = indexVideos.map((video, index) => 
+                <VideoCard setFocusVideo={ setFocusVideo } 
+                    videoData={ video } 
+                    key={ index } 
+                    url={ video_to_youtube_data[video._id].youtube_url } 
+                />)
+    };
 
     if (indexVideos) {
         return (
@@ -44,20 +61,16 @@ function VideoLibrary() {
                                     setFocusVideoState={ setFocusVideoState } 
                                     videoData={ focusVideo } 
                                     url={ video_to_youtube_data[focusVideo._id].youtube_url }
+                                    searchVideos={ searchVideos }
+                                    setSearchVideos={ setSearchVideos }
+                                    indexVideos={ indexVideos }
                                 />
                             </div>
                         </div>
                         
                         <div className="col scroll-col">
                             <div className="row row-cols-xl-3 row-cols-lg-2 row-cols-m-1 row-cols-s-1 row-cols-xs-1">
-                                { 
-                                    searchVideos.map((video, index) => 
-                                        <VideoCard setFocusVideo={ setFocusVideo } 
-                                        videoData={ video } 
-                                        key={ index } 
-                                        url={ video_to_youtube_data[video._id].youtube_url } 
-                                    />) 
-                                }
+                                {videoLibrary}
                             </div>
                         </div>
 
