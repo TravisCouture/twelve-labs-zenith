@@ -8,16 +8,49 @@ const API_URL = process.env.REACT_APP_TWELVE_LABS_API_URL;
 const API_KEY = process.env.REACT_APP_TWELVE_LABS_API_KEY;
 const VIDEO_TO_VIDEO_INDEX = process.env.REACT_APP_TWELVE_LABS_VIDEO_VIDEO_INDEX;
 
-function FocusVideoCard( { focusVideoState, setFocusVideoState, videoData, url }) {
+function FocusVideoCard( { focusVideoState, setFocusVideoState, videoData, url, searchVideos, setSearchVideos, indexVideos}) {
     const videoElement = React.createRef();;
     const rangeSlider = React.createRef();
+    const [searchButtonDisabled, setSearchButtonDisabled] =  React.useState(false);
 
     React.useEffect(() => {
         videoElement.current.seekTo(focusVideoState.startThumb, 'seconds');
     }, [focusVideoState.startThumb, focusVideoState.endThumb]);
 
+    React.useEffect(() => {
+        setSearchButtonDisabled(false);
+    }, [searchVideos]);
+
+    const updateSimilarVideos = (data) => {
+        const topClips = data.map((video) => {
+            return (video.clips[0])
+        });
+        const foundVideos = topClips.filter((clip) => {
+            return indexVideos.some((video) => {
+                return clip.video_id === video._id
+            });
+        });
+
+        let mergedVideos = [];
+
+        for(let i=0; i<foundVideos.length; i++) {
+            mergedVideos.push({
+             ...foundVideos[i], 
+             ...(indexVideos.find((video) => video._id === foundVideos[i].video_id))}
+            );
+          }
+
+        setSearchVideos(mergedVideos);
+    };
+
     const handleFindSimilarVideos = () => {
-        getSimilarVideos(API_URL, API_KEY, VIDEO_TO_VIDEO_INDEX, videoData._id, focusVideoState.startThumb, focusVideoState.endThumb);
+        setSearchButtonDisabled(true);
+
+        const response = getSimilarVideos(API_URL, API_KEY, VIDEO_TO_VIDEO_INDEX, videoData._id, focusVideoState.startThumb, focusVideoState.endThumb);
+
+        response.then((json) => {
+            updateSimilarVideos(json.data)
+        });
     }
 
     const handleLoadedMetadata = (duration) => {
@@ -74,7 +107,6 @@ function FocusVideoCard( { focusVideoState, setFocusVideoState, videoData, url }
 
     const handleOnSeek = () => {
         let thumbDiff = rangeSlider.current.value.max - videoElement.current.getCurrentTime();
-        console.log(thumbDiff);
 
         if (thumbDiff < 0) {
             let rangeModifier = Math.max(Math.round( (thumbDiff * -1) - 30), 0);
@@ -94,6 +126,15 @@ function FocusVideoCard( { focusVideoState, setFocusVideoState, videoData, url }
             });
         };
     };
+
+    let searchSpinner;
+
+    if (searchButtonDisabled) {
+        searchSpinner = <button className="btn btn-primary mb-3 mx-1" type="button" disabled>
+                            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                Searching...
+                        </button>
+    }
 
     return(
         <div className="col d-flex">
@@ -116,9 +157,10 @@ function FocusVideoCard( { focusVideoState, setFocusVideoState, videoData, url }
                 <div className="card-body">
                     <h5 className="card-title">{ `${videoData.metadata.filename.split("-")[0]}` }</h5>
                     <p className="card-text">{ `${Math.round(videoData.metadata.duration / 60)} minutes` }</p>
-                    <button className="btn btn-primary mb-3" onClick={ handleFindSimilarVideos }>
+                    <button className={searchButtonDisabled ? "btn btn-primary mb-3 mx-1 disabled" : "btn btn-primary mb-3 mx-1"} onClick={ handleFindSimilarVideos }>
                         Find Similar Videos
                     </button>
+                    { searchSpinner }
                     <RangeSlider
                         className="mb-3"
                         min={ focusVideoState.focusVideoStart } 
