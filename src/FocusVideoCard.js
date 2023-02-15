@@ -72,10 +72,33 @@ function FocusVideoCard( { focusVideoState, setFocusVideoState, videoData, url }
         };
     };
 
+    const handleOnSeek = () => {
+        let thumbDiff = rangeSlider.current.value.max - videoElement.current.getCurrentTime();
+        console.log(thumbDiff);
+
+        if (thumbDiff < 0) {
+            let rangeModifier = Math.max(Math.round( (thumbDiff * -1) - 30), 0);
+
+            setFocusVideoState({
+                ...focusVideoState,
+                startThumb: ( rangeSlider.current.value.max + rangeModifier ),
+                endThumb: videoElement.current.getCurrentTime()
+            });
+        } else {
+            let rangeModifier = Math.max(Math.round( thumbDiff - 30), 0);
+
+            setFocusVideoState({
+                ...focusVideoState,
+                startThumb: videoElement.current.getCurrentTime(),
+                endThumb: ( rangeSlider.current.value.max - rangeModifier ) 
+            });
+        };
+    };
+
     return(
-        <div className="col">
-            <div className="card shadow">
-                <ReactPlayer 
+        <div className="col d-flex">
+            <div className="card shadow flex-fill">
+                <ReactPlayer
                     className="card-img-top focus-video" 
                     url={ url }
                     muted={ true }
@@ -83,15 +106,16 @@ function FocusVideoCard( { focusVideoState, setFocusVideoState, videoData, url }
                     playsinline={ true }
                     playing={ true }
                     onDuration={ handleLoadedMetadata }
+                    onSeek={ handleOnSeek }
                     ref={ videoElement }
-                    height={ videoData.metadata.height }
-                    width="auto"
+                    height="60vmin"
+                    width="100%"
                     light={ true }
                     config={{ youtube: { playerVars: { origin: 'http://localhost:3000/', enablejsapi: 1 } } }}
                 />
                 <div className="card-body">
-                    <h5 className="card-title">{ videoData.metadata.filename }</h5>
-                    <p className="card-text">{ videoData.metadata.duration }</p>
+                    <h5 className="card-title">{ `${videoData.metadata.filename.split("-")[0]}` }</h5>
+                    <p className="card-text">{ `${Math.round(videoData.metadata.duration / 60)} minutes` }</p>
                     <button className="btn btn-primary mb-3" onClick={ handleFindSimilarVideos }>
                         Find Similar Videos
                     </button>
