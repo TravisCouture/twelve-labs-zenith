@@ -9,6 +9,7 @@
 
 body {
   overflow: hidden;
+  background-color: whitesmoke ;
 }
 
 .btn-primary {
@@ -36,17 +37,12 @@ body {
 }
 
 .focus-video {
-  width: auto;
-  height: auto;
-  max-height: 50vh;
-  min-height: 25vh;
+  object-fit: cover;
 }
 
-.video-library-card {
-    width: auto;
-    height: auto;
-    max-height: 50vh;
-    min-height: 20vh;
+.card-video-top {
+  min-height: 16vmin;
+  max-height: 16vmin;
 }
 
 .range-slider .range-slider__range {
