@@ -33,21 +33,23 @@ function VideoLibrary() {
 
     if (indexVideos) {
         return (
-            <div className="VideoLibrary">
+            <div className="VideoLibrary mx-5">
                 <div className="container-fluid">
                     <div className="row row-cols-2 justify-content-center scroll-row">
 
-                        <div className="col-4">
-                            <FocusVideoCard 
-                                focusVideoState={ focusVideoState } 
-                                setFocusVideoState={ setFocusVideoState } 
-                                videoData={ focusVideo } 
-                                url={ video_to_youtube_data[focusVideo._id].youtube_url }
-                            />
+                        <div className="col">
+                            <div className="row">
+                                <FocusVideoCard 
+                                    focusVideoState={ focusVideoState } 
+                                    setFocusVideoState={ setFocusVideoState } 
+                                    videoData={ focusVideo } 
+                                    url={ video_to_youtube_data[focusVideo._id].youtube_url }
+                                />
+                            </div>
                         </div>
                         
                         <div className="col scroll-col">
-                            <div className="row row-cols-3">
+                            <div className="row row-cols-xl-3 row-cols-lg-2 row-cols-m-1 row-cols-s-1 row-cols-xs-1">
                                 { 
                                     searchVideos.map((video, index) => 
                                         <VideoCard setFocusVideo={ setFocusVideo } 
