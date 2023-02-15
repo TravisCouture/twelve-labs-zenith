@@ -3,15 +3,15 @@ import ReactPlayer from "react-player/youtube";
 
 function VideoCard({ setFocusVideo, videoData, url }) {
     return (
-        <div className="col">
-            <div className="card shadow mb-2 video-library-card">
+        <div className="col-auto d-flex">
+            <div className="card shadow mb-3 flex-fill">
                 <ReactPlayer 
-                    className="card-img-top"
+                    className="card-img-top card-video-top embed-responsive"
                     url={ url }
                     muted={ true }
                     controls={ true }
                     playsinline={ true }
-                    height={ videoData.metadata.height }
+                    height="auto"
                     width="auto"
                     light={ true }
                     config={{ youtube: { playerVars: { origin: 'http://localhost:3000/', enablejsapi: 1 } } }}
