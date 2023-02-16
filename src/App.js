@@ -5,7 +5,7 @@ import React from "react";
 const LOGO = "https://twelvelabs.io/logo.png";
 
 function App() {
-  const [selectedMode, setSelectedMode] = React.useState(0);
+  const [selectedMode, setSelectedMode] = React.useState("video-to-video");
 
   return (
     <div className="App">
@@ -21,7 +21,7 @@ function App() {
             <ul className="navbar-nav">
               <li className="nav-item btn" 
                   aria-current="page" 
-                  onClick={(event) => setSelectedMode("v2v-serach")}>
+                  onClick={(event) => setSelectedMode("video-to-video")}>
                     Video-To-Video Search
               </li>
               <li className="nav-item btn"
