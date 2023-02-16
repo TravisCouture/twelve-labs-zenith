@@ -8,8 +8,12 @@ export async function getVideos (api_url, index_id, api_key) {
         }
     };
 
-    const response = await fetch(videos_url, options);
-    return await response.json();
+    try {
+        const response = await fetch(videos_url, options);
+        return await response.json();
+    } catch (error) {
+        console.log(error);
+    };
 };
 
 export async function getSimilarVideos(api_url, api_key, index_id, video_id, start, end) {
@@ -33,6 +37,10 @@ export async function getSimilarVideos(api_url, api_key, index_id, video_id, sta
         })
     };
 
-    const response = await fetch(v2v_search_url, options);
-    return await response.json();
+    try {
+        const response = await fetch(v2v_search_url, options);
+        return await response.json();
+    } catch (error) {
+        console.log(error);
+    };
 };
