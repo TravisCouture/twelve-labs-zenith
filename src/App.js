@@ -48,7 +48,7 @@ function App() {
                               Content Classification
                         </li>
                         <li className="nav-item dropdown">
-                          <a class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                          <a className="btn btn-sm btn-secondary dropdown-toggle" type="button" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                             Active Index
                           </a>
                           <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
