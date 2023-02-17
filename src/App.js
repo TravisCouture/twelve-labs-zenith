@@ -73,7 +73,7 @@ function App() {
   let workArea;
 
   if (indexVideos) {
-    workArea = <WorkArea selectedMode={ selectedMode } indexVideos={ indexVideos }/>
+    workArea = <WorkArea selectedMode={ selectedMode } indexVideos={ indexVideos }selectedIndex={ selectedIndex }/>
   };
 
   return (
