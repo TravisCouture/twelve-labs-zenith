@@ -27,6 +27,21 @@ body {
   box-shadow: none !important;
 }
 
+.btn:active, .btn:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.btn-secondary {
+  background-color: #323232 !important;
+  border-color: #323232 !important;
+}
+
+.active {
+  background-color: #323232 !important;
+  border-color: #323232 !important;
+}
+
 .scroll-row {
   height: 100vh;
 }
