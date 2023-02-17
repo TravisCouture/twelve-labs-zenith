@@ -53,7 +53,7 @@ function App() {
                           </a>
                           <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li>
-                              <a class="dropdown-item active" role="button" onClick={() => setSelectedIndex(process.env.REACT_APP_TWELVE_LABS_VIDEO_VIDEO_INDEX)}>
+                              <a className="dropdown-item active" role="button" onClick={() => setSelectedIndex(process.env.REACT_APP_TWELVE_LABS_VIDEO_VIDEO_INDEX)}>
                                 Mr. Beast
                               </a>
                             </li>
