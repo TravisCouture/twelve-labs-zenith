@@ -79,18 +79,32 @@ textarea {
   justify-content: center;
   width: 100%;
   height: 3vmin;
-  border-radius: 1em;
+  padding: 0;
+  margin: 0;
 }
 
 .timeline-item {
-  background-color: whitesmoke;
-  flex: 1;
+  background-color: lightgrey;
+  flex: 0.5;
+  height: 3vmin;
+  transition: height 0.05s;
 }
 
 .timeline-item:hover {
   align-self: center;
-  background-color: blue;
+  flex-grow: 3;
+  height: 4vmin;
+}
+
+.timeline-marker {
+  background-color: #ff8d3a;
+  flex: 10;
+  height: 3vmin;
+  transition: height 0.05s;
+}
+
+.timeline-marker:hover {
   flex-grow: 10;
   height: 4vmin;
-  border-radius: 5em;
 }
+
