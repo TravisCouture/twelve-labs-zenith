@@ -1,53 +1,47 @@
 import React from "react";
 import VideoCard from "./VideoCard";
 import V2VFocusCard from "./V2VFocusCard";
+import CombinedSearchFocusCard from "./CombinedSearchFocusCard";
 import video_to_youtube_data from './video_to_youtube.json';
 
-function WorkArea({ selectedMode, indexVideos }) {
-    const [focusVideoState, setFocusVideoState] = React.useState({
-        focusVideoStart: 0,
-        focusVideoEnd: 0,
-        startThumb: 0,
-        endThumb: 0
-    });
-
+function WorkArea({ selectedMode, indexVideos, selectedIndex }) {
+    const [focusVideoState, setFocusVideoState] = React.useState();
     const [focusVideo, setFocusVideo] = React.useState();
     const [apiVideos, setApiVideos] = React.useState();
     const [videoUrlData, setVideoUrlData] = React.useState();
 
     React.useEffect(() => {
         if (selectedMode === "video-to-video") {
+            setFocusVideoState({
+                focusVideoStart: 0,
+                focusVideoEnd: 0,
+                startThumb: 0,
+                endThumb: 0
+            });
+        } else if (selectedMode === "combined-search") {
+            setFocusVideo();
+        };
+
+        if (selectedIndex === process.env.REACT_APP_TWELVE_LABS_VIDEO_VIDEO_INDEX) {
             setVideoUrlData(video_to_youtube_data);
         };
 
         setFocusVideo(indexVideos[0]);
-    }, [indexVideos, videoUrlData, selectedMode]);
+        setApiVideos(indexVideos);
+    }, [indexVideos, videoUrlData, selectedMode, selectedIndex]);
 
     const makeVideoLibrary = () => {
-        let videoLibrary;
-
-        if (apiVideos) {
-            videoLibrary = apiVideos.map((video, index) => 
-                <VideoCard setFocusVideo={ setFocusVideo } 
-                    videoData={ video } 
-                    key={ index } 
-                    url={ videoUrlData[video.video_id].youtube_url } 
-                />);
-
-            return videoLibrary;
-        } else if (indexVideos) {
-            videoLibrary = indexVideos.map((video, index) => 
-                <VideoCard setFocusVideo={ setFocusVideo } 
-                    videoData={ video } 
-                    key={ index } 
-                    url={ videoUrlData[video._id].youtube_url } 
-                />);
-        };
+        let videoLibrary = apiVideos.map((video, index) => 
+                            <VideoCard setFocusVideo={ setFocusVideo } 
+                                videoData={ video } 
+                                key={ index } 
+                                url={ videoUrlData[video._id].youtube_url } 
+                            />);
 
         return videoLibrary;
     };
 
-    const makeFocusCard = () => {
+    const makeV2VFocusCard = () => {
         let focusCard = <V2VFocusCard 
                             focusVideoState={ focusVideoState } 
                             setFocusVideoState={ setFocusVideoState } 
@@ -57,7 +51,7 @@ function WorkArea({ selectedMode, indexVideos }) {
                             setApiVideos={ setApiVideos }
                             indexVideos={ indexVideos }
                             selectedMode={ selectedMode }
-                        />
+                        />;
 
         return focusCard;
     };
@@ -65,9 +59,27 @@ function WorkArea({ selectedMode, indexVideos }) {
     let videoLibrary;
     let focusCard;
 
-    if (indexVideos && focusVideo) {
-        videoLibrary = makeVideoLibrary();
-        focusCard = makeFocusCard();
+    if (!apiVideos || !focusVideo || !videoUrlData) {
+        return;
+    };
+
+    videoLibrary = makeVideoLibrary();
+
+    if (selectedMode === "video-to-video") {
+        focusCard = makeV2VFocusCard();
+    } else if (selectedMode === "combined-search") {
+        focusCard = <CombinedSearchFocusCard
+                        focusVideo={ focusVideo }
+                        focusVideoState={ focusVideoState } 
+                        setFocusVideoState={ setFocusVideoState } 
+                        videoData={ focusVideo } 
+                        url={ videoUrlData[focusVideo._id].youtube_url }
+                        apiVideos={ apiVideos }
+                        setApiVideos={ setApiVideos }
+                        indexVideos={ indexVideos }
+                        selectedMode={ selectedMode }
+                        selectedIndex={ selectedIndex }
+                    />;
     };
 
     return (
