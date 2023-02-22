@@ -43,7 +43,7 @@ function WorkArea({ selectedMode, indexVideos, selectedIndex }) {
 
     const makeV2VFocusCard = () => {
         let focusCard = <V2VFocusCard 
-                            focusVideoState={ focusVideoState } 
+                            focusVideoState={ focusVideoState }
                             setFocusVideoState={ setFocusVideoState } 
                             videoData={ focusVideo } 
                             url={ videoUrlData[focusVideo._id].youtube_url }
@@ -70,6 +70,7 @@ function WorkArea({ selectedMode, indexVideos, selectedIndex }) {
     } else if (selectedMode === "combined-search") {
         focusCard = <CombinedSearchFocusCard
                         focusVideo={ focusVideo }
+                        setFocusVideo={ setFocusVideo }
                         focusVideoState={ focusVideoState } 
                         setFocusVideoState={ setFocusVideoState } 
                         videoData={ focusVideo } 
