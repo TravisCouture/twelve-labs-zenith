@@ -79,7 +79,6 @@ export async function getQueryVideos(api_url, api_key, index_id, query1, query2,
             ];
     };
 
-    console.log(query);
     const options = {
         method: "POST",
         headers: {
