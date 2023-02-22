@@ -8,7 +8,7 @@ const API_URL = process.env.REACT_APP_TWELVE_LABS_API_URL;
 const API_KEY = process.env.REACT_APP_TWELVE_LABS_API_KEY;
 const VIDEO_TO_VIDEO_INDEX = process.env.REACT_APP_TWELVE_LABS_VIDEO_VIDEO_INDEX;
 
-function V2VFocusCard( { focusVideoState, setFocusVideoState, videoData, url, apiVideos, setApiVideos, indexVideos, selectedMode}) {
+function V2VFocusCard( { focusVideoState, setFocusVideoState, videoData, url, apiVideos, setApiVideos, indexVideos }) {
     const videoElement = React.createRef();
     const rangeSlider = React.createRef();
 
@@ -35,7 +35,7 @@ function V2VFocusCard( { focusVideoState, setFocusVideoState, videoData, url, ap
              ...foundVideos[i], 
              ...(indexVideos.find((video) => video._id === foundVideos[i].video_id))}
             );
-          }
+        }
 
         setApiVideos(mergedVideos);
     };
@@ -166,13 +166,7 @@ function V2VFocusCard( { focusVideoState, setFocusVideoState, videoData, url, ap
         return cardControls;
     };
 
-    let cardControls;
-
-    switch (selectedMode) {
-        case "video-to-video": {
-            cardControls = makeV2VCardControls();
-        }
-    };
+    let cardControls = makeV2VCardControls();
 
     return(
         <div className="col d-flex">
