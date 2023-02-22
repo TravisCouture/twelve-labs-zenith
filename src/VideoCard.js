@@ -37,6 +37,38 @@ function VideoCard({ setFocusVideo, videoData, url }) {
                             <span className="badge bg-primary mt-1 p-2">End: { Math.round(videoData.end) }s</span>
                         </div>
                     </div>
+    } else if (videoData.clips) {
+        videoCard = <div className="card shadow mb-3 flex-fill">
+                        <ReactPlayer 
+                            className="card-img-top card-video-top embed-responsive"
+                            url={ `${url}?start=${videoData.start}&end=${videoData.end}` }
+                            muted={ true }
+                            controls={ true }
+                            playsinline={ true }
+                            height="auto"
+                            width="auto"
+                            light={ true }
+                            config={
+                                { 
+                                    youtube: 
+                                    { playerVars: 
+                                        { 
+                                            origin: 'http://localhost:3000/', 
+                                            enablejsapi: 1
+                                        } 
+                                } 
+                            }}
+                        />
+                        <div className="card-body">
+                            <h5 className="card-title">{ videoData.metadata.filename.split("-")[0] }</h5>
+                            <p className="card-text">
+                                { `${Math.round(videoData.metadata.duration / 60)} minutes` }<br/>
+                            </p>
+                            <button className="btn btn-primary" onClick={ () => setFocusVideo(videoData)}>Select</button><br/>
+                            <span className="badge bg-primary mt-2 p-2">Max Score: { Math.round(videoData.clips[0].score) }</span>
+                            <span className="badge bg-primary mx-1 p-2">Total Matches: { videoData.clips.length }</span>
+                        </div>
+                    </div>
     } else {
         videoCard = <div className="card shadow mb-3 flex-fill">
                         <ReactPlayer 
