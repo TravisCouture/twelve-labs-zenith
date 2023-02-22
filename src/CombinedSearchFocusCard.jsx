@@ -5,7 +5,7 @@ import { getQueryVideos } from "./Api";
 const API_URL = process.env.REACT_APP_TWELVE_LABS_API_URL;
 const API_KEY = process.env.REACT_APP_TWELVE_LABS_API_KEY;
 
-function CombinedSearchFocusCard({ focusVideo, focusVideoState, setFocusVideoState, videoData, url, apiVideos, setApiVideos, indexVideos, selectedIndex }) {
+function CombinedSearchFocusCard({ focusVideo, setFocusVideo, focusVideoState, setFocusVideoState, videoData, url, apiVideos, setApiVideos, indexVideos, selectedIndex }) {
     const [searchButtonDisabled, setSearchButtonDisabled] =  React.useState(false);
     const [query1, setQuery1] = React.useState();
     const [query2, setQuery2] = React.useState();
@@ -37,6 +37,7 @@ function CombinedSearchFocusCard({ focusVideo, focusVideoState, setFocusVideoSta
         }
         setSearchButtonDisabled(false);
         setApiVideos(mergedVideos);
+        setFocusVideo(mergedVideos[0]);
     };
 
     const handleSearchForMoments = () => {
@@ -58,10 +59,21 @@ function CombinedSearchFocusCard({ focusVideo, focusVideoState, setFocusVideoSta
 
     const renderTimeline = () => {
         let timeline = [];
-        let timelineElementWidth = 1 / focusVideo.metadata.duration;
+        let markers
 
-        for (let i=0; i<focusVideo.metadata.duration; i++) {
-            let timelineItem = <div className="timeline-item" key={ i } data-time={ i } onMouseEnter={(event) => videoElement.current.seekTo(event.target.getAttribute("data-time"))}></div>
+        if (focusVideo.clips) {
+            markers = focusVideo.clips.map(clip => { return clip.start });
+        }
+
+        for (let i=0; i<=Math.ceil(focusVideo.metadata.duration); i++) {
+            let timelineItem;
+
+            if (markers && markers.includes(i)) {
+                timelineItem = <div className="timeline-item timeline-marker" key={ i } data-time={ i } onClick={(event) => videoElement.current.seekTo(event.target.getAttribute("data-time"))} />
+            } else {
+                timelineItem = <div className="timeline-item" key={ i } data-time={ i } onClick={(event) => videoElement.current.seekTo(event.target.getAttribute("data-time"))} />
+            };
+
             timeline.push(timelineItem);
         };
 
