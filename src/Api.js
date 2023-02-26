@@ -45,7 +45,7 @@ export async function getSimilarVideos(api_url, api_key, index_id, video_id, sta
     };
 };
 
-export async function getQueryVideos(api_url, api_key, index_id, query1, query2, queryOperator, proximity, queryTimeRelation) {
+export async function getQueryVideos(api_url, api_key, index_id, query1, query1Option, query2, query2Option, queryOperator, proximity, queryTimeRelation) {
     const search_url = `${api_url}beta/search`;
     let query = {};
     const operatorMap = new Map([
@@ -54,29 +54,29 @@ export async function getQueryVideos(api_url, api_key, index_id, query1, query2,
         ["THEN", "$then"]
     ]);
 
-    if (queryTimeRelation === "AFTER") {
-        query = {
-            "$then": [
-                { "text": query1, "option": "visual" },
-                { "text": query2, "option": "visual" }
-            ],
-            "proximity": parseFloat(proximity),
-        };
-    } else if (queryTimeRelation === "BEFORE") {
-        query = {
-            "$then": [
-                { "text": query2, "option": "visual" },
-                { "text": query1, "option": "visual" }
-            ],
-            "proximity": parseFloat(proximity)
-        };
-    } else {
+    if (queryOperator === "OR" || queryOperator === "AND") {
         let operatorKey = operatorMap.get(queryOperator);
         query["proximity"] = parseFloat(proximity);
         query[operatorKey] =  [
-                { "text": query1, "option": "visual" },
-                { "text": query2, "option": "visual" }
+                { "text": query1, "option": query1Option },
+                { "text": query2, "option": query2Option}
             ];
+    } else if (queryOperator === "THEN" && queryTimeRelation === "AFTER") {
+        query = {
+            "$then": [
+                { "text": query1, "option": query1Option },
+                { "text": query2, "option": query2Option }
+            ],
+            "proximity": parseFloat(proximity),
+        };
+    } else if (queryOperator === "THEN" && queryTimeRelation === "BEFORE") {
+        query = {
+            "$then": [
+                { "text": query2, "option": query2Option },
+                { "text": query1, "option": query1Option }
+            ],
+            "proximity": parseFloat(proximity)
+        };
     };
 
     const options = {

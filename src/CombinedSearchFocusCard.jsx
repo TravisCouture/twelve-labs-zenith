@@ -8,7 +8,9 @@ const API_KEY = process.env.REACT_APP_TWELVE_LABS_API_KEY;
 function CombinedSearchFocusCard({ focusVideo, setFocusVideo, focusVideoState, setFocusVideoState, videoData, url, apiVideos, setApiVideos, indexVideos, selectedIndex }) {
     const [searchButtonDisabled, setSearchButtonDisabled] =  React.useState(false);
     const [query1, setQuery1] = React.useState();
+    const [query1Option, setQuery1Option] = React.useState("visual");
     const [query2, setQuery2] = React.useState();
+    const [query2Option, setQuery2Option] = React.useState("visual");
     const [queryOperator, setQueryOperator] = React.useState("AND");
     const [queryTimeRelation, setQueryTimeRelation] = React.useState("WITHIN");
     const [queryProximity, setQueryProximity] = React.useState(30);
@@ -43,13 +45,14 @@ function CombinedSearchFocusCard({ focusVideo, setFocusVideo, focusVideoState, s
     const handleSearchForMoments = () => {
         setSearchButtonDisabled(true);
         
-        const reponse = getQueryVideos(API_URL, API_KEY, selectedIndex, query1, query2, queryOperator, queryProximity, queryTimeRelation);
+        const reponse = getQueryVideos(API_URL, API_KEY, selectedIndex, query1, query1Option, query2, query2Option, queryOperator, queryProximity, queryTimeRelation);
 
         reponse.then((json) => { updateQueryResults(json.data) });
     };
 
     const updateOperator = (event) => {
         setQueryOperator(event.target.value);
+
         if (event.target.value === "AND" ) {
             setQueryTimeRelation("WITHIN");
         } else if (event.target.value === "THEN" && queryTimeRelation === "WITHIN") {
@@ -60,7 +63,6 @@ function CombinedSearchFocusCard({ focusVideo, setFocusVideo, focusVideoState, s
     const renderTimeline = () => {
         let timeline = [];
         let clips = [...focusVideo.clips].sort((a, b) => a.start - b.start);
-        console.log(clips);
 
         let currentClip = 0;
         for (let i=0; i<=Math.ceil(focusVideo.metadata.duration); i++) {
@@ -131,7 +133,7 @@ function CombinedSearchFocusCard({ focusVideo, setFocusVideo, focusVideoState, s
                             </div>
                         </div>
     } else {
-        searchSpinner = <button className="btn btn-primary m-3" type="button"onClick={ handleSearchForMoments } title="Only First Page Of Results Returned">
+        searchSpinner = <button className="btn btn-primary m-3" type="button"onClick={ handleSearchForMoments } title="Only First 50 Results By Score Returned">
                             Search For Moments
                         </button>
 
@@ -145,6 +147,15 @@ function CombinedSearchFocusCard({ focusVideo, setFocusVideo, focusVideoState, s
                                         onChange={event => setQuery1(event.target.value)}>
                                             { query1 }
                                     </textarea>
+                                    <label className="form-label">Query Option</label>
+                                    <select className="form-select" 
+                                        aria-label="Default select example" 
+                                        value={ query1Option }
+                                        onChange={(event) => setQuery1Option(event.target.value)}>
+                                            <option value="visual">Visual</option>
+                                            <option value="conversation">Conversation</option>
+                                            <option value="text_in_video">Text</option>
+                                    </select>
                                 </div>
                                 <div className="col">
                                     <label className="form-label">Operator</label>
@@ -174,6 +185,15 @@ function CombinedSearchFocusCard({ focusVideo, setFocusVideo, focusVideoState, s
                                         onChange={event => setQuery2(event.target.value)}>
                                             { query2 }
                                     </textarea>
+                                    <label className="form-label">Query Option</label>
+                                    <select className="form-select" 
+                                        aria-label="Default select example" 
+                                        value={ query2Option }
+                                        onChange={(event) => setQuery2Option(event.target.value)}>
+                                            <option value="visual">Visual</option>
+                                            <option value="conversation">Conversation</option>
+                                            <option value="text_in_video">Text</option>
+                                    </select>
                                 </div>
                             </div>
                             </form>
