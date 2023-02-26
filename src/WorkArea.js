@@ -86,11 +86,9 @@ function WorkArea({ selectedMode, indexVideos, selectedIndex }) {
     return (
         <div className="WorkArea mx-5">
             <div className="container-fluid">
-                <div className="row row-cols-2 justify-content-center scroll-row">
-                    <div className="col">
-                        <div className="row">
-                            { focusCard }
-                        </div>
+                <div className="row row-cols-xl-2 row-cols-lg-2 row-cols-m-2 row-cols-s-1 row-cols-xs-1">
+                    <div className="col-auto scroll-col">
+                        { focusCard }
                     </div>
                     <div className="col scroll-col">
                         <div className="row row-cols-xl-3 row-cols-lg-2 row-cols-m-1 row-cols-s-1 row-cols-xs-1">

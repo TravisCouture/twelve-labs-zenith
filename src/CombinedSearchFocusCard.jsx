@@ -128,7 +128,7 @@ function CombinedSearchFocusCard({ focusVideo, setFocusVideo, focusVideoState, s
                         </button>
 
         queryControls = <div className="row">
-                            <div className="col d-flex justify-content-center">
+                            <div className="col justify-content-center">
                                 { searchSpinner }
                             </div>
                         </div>
@@ -204,37 +204,34 @@ function CombinedSearchFocusCard({ focusVideo, setFocusVideo, focusVideoState, s
     };
 
     return(
-        <div className="col">
-            <div className="row d-flex">
-                <div className="card shadow flex-fill">
-                    <div className="card-body">
-                        <p className="card-text"><strong>Combined Query Controls</strong></p>
-                    </div>
-                    { queryControls }
+        <> 
+            <div className="card shadow">
+                <div className="card-body">
+                    <h5 className="card-text">Combined Query Controls</h5>
                 </div>
+                { queryControls }
             </div>
-            <div className="row d-flex mt-1">
-                <div className="card shadow p-0">
+            <div className="card shadow mt-1">
+                <div className="ratio ratio-21x9">
                     <ReactPlayer
-                        className="card-img-top focus-video" 
+                        className="card-img-top" 
                         url={ url }
                         muted={ true }
                         controls={ true }
                         playsinline={ true }
                         playing={ true }
-                        height="30vmin"
-                        width="auto"
+                        height="100%"
+                        width="100%"
                         light={ true }
                         ref={ videoElement }
                     />
-                    <div className="card-body">
-                        <h5 className="card-title">{ `${videoData.metadata.filename.split("-")[0]}` }</h5>
-                        <p className="card-text">{ `${Math.round(videoData.metadata.duration / 60)} minutes` }</p>
-                        { timeline }
-                    </div>
+                </div>
+                <div className="card-body">
+                    <h5 className="card-title">{ `${videoData.metadata.filename.split("-")[0]}` }</h5>
+                    { timeline }
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

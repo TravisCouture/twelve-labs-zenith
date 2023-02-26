@@ -46,22 +46,9 @@ textarea {
   border-color: #323232 !important;
 }
 
-.scroll-row {
-  height: 100vh;
-}
-
 .scroll-col {
-  height: 90%;
+  max-height: 90vh;
   overflow-y: scroll;
-}
-
-.focus-video {
-  object-fit: cover;
-}
-
-.card-video-top {
-  min-height: 16vmin;
-  max-height: 16vmin;
 }
 
 .range-slider .range-slider__range {
@@ -102,4 +89,3 @@ textarea {
   height: 4vmin;
   align-self: center;
 }
-

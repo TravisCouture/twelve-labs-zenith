@@ -171,20 +171,22 @@ function V2VFocusCard( { focusVideoState, setFocusVideoState, videoData, url, ap
     return(
         <div className="col d-flex">
             <div className="card shadow flex-fill">
-                <ReactPlayer
-                    className="card-img-top focus-video" 
-                    url={ url }
-                    muted={ true }
-                    controls={ true }
-                    playsinline={ true }
-                    playing={ true }
-                    onDuration={ handleLoadedMetadata }
-                    onSeek={ handleOnSeek }
-                    ref={ videoElement }
-                    height="60vmin"
-                    width="100%"
-                    light={ true }
-                />
+                <div className="ratio ratio-16x9">
+                    <ReactPlayer
+                        className="card-img-top" 
+                        url={ url }
+                        muted={ true }
+                        controls={ true }
+                        playsinline={ true }
+                        playing={ true }
+                        onDuration={ handleLoadedMetadata }
+                        onSeek={ handleOnSeek }
+                        ref={ videoElement }
+                        height="100%"
+                        width="100%"
+                        light={ true }
+                    />
+                </div>
                 { cardControls }
             </div>
         </div>
