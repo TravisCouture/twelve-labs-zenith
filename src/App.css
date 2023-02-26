@@ -90,12 +90,6 @@ textarea {
   transition: height 0.05s;
 }
 
-.timeline-item:hover {
-  align-self: center;
-  flex-grow: 3;
-  height: 4vmin;
-}
-
 .timeline-marker {
   background-color: #ff8d3a;
   flex: 10;
@@ -106,5 +100,6 @@ textarea {
 .timeline-marker:hover {
   flex-grow: 10;
   height: 4vmin;
+  align-self: center;
 }
 
