@@ -138,8 +138,8 @@ function CombinedSearchFocusCard({ focusVideo, setFocusVideo, focusVideoState, s
                         </button>
 
         queryControls = <form>
-                            <div className="row m-1">
-                                <div className="col">
+                            <div className="row row-cols-xl-3 row-cols-lg-2 row-cols-m-1 row-cols-s-1 row-cols-xs-1 m-1">
+                                <div className="col-auto">
                                     <label className="form-label">Query 1</label>
                                     <textarea className="form-control" 
                                         placeholder="Mr. Beast gives away cash"
@@ -157,7 +157,7 @@ function CombinedSearchFocusCard({ focusVideo, setFocusVideo, focusVideoState, s
                                             <option value="text_in_video">Text</option>
                                     </select>
                                 </div>
-                                <div className="col">
+                                <div className="col-auto">
                                     <label className="form-label">Operator</label>
                                     <select className="form-select" 
                                         aria-label="Default select example" 
@@ -177,7 +177,7 @@ function CombinedSearchFocusCard({ focusVideo, setFocusVideo, focusVideoState, s
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col">
+                                <div className="col-auto">
                                     <label className="form-label">Query 2</label>
                                     <textarea className="form-control" 
                                         placeholder="Someone is on stage"
