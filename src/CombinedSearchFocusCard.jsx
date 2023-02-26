@@ -59,19 +59,32 @@ function CombinedSearchFocusCard({ focusVideo, setFocusVideo, focusVideoState, s
 
     const renderTimeline = () => {
         let timeline = [];
-        let markers
+        let clips = [...focusVideo.clips].sort((a, b) => a.start - b.start);
+        console.log(clips);
 
-        if (focusVideo.clips) {
-            markers = focusVideo.clips.map(clip => { return clip.start });
-        }
-
+        let currentClip = 0;
         for (let i=0; i<=Math.ceil(focusVideo.metadata.duration); i++) {
-            let timelineItem;
+            let timelineItem = <div 
+                                className="timeline-item" 
+                                key={ i } 
+                                data-time={ i } />
 
-            if (markers && markers.includes(i)) {
-                timelineItem = <div className="timeline-item timeline-marker" key={ i } data-time={ i } onClick={(event) => videoElement.current.seekTo(event.target.getAttribute("data-time"))} />
-            } else {
-                timelineItem = <div className="timeline-item" key={ i } data-time={ i } onClick={(event) => videoElement.current.seekTo(event.target.getAttribute("data-time"))} />
+            if (clips[currentClip]) {
+                let clip = clips[currentClip];
+
+                if (i === clip.start) {
+                    let hoverString = `Start: ${clip.start}s\nEnd: ${clip.end}s\nDuration: ${clip.end - clip.start}s\nScore: ${clip.score}\nconfidence: ${clip.confidence}\n`;
+
+                    timelineItem = <div 
+                                    className="timeline-item timeline-marker" 
+                                    key={ i } 
+                                    data-time={ i } 
+                                    title={ hoverString }
+                                    style={{ flex: `${2 + clip.end - clip.start}` }}
+                                    onClick={(event) => videoElement.current.seekTo(event.target.getAttribute("data-time"))} />
+
+                    currentClip++;
+                };
             };
 
             timeline.push(timelineItem);
@@ -84,6 +97,7 @@ function CombinedSearchFocusCard({ focusVideo, setFocusVideo, focusVideoState, s
     let queryControls;
     let timeRelationControls;
     let promximityControls = <input className="form-control" type="number" value={ queryProximity } onChange={event => setQueryProximity(event.target.value) }/>
+    let timeline;
 
     if (queryOperator === "THEN") {
         timeRelationControls = <select className="form-select" 
@@ -165,6 +179,10 @@ function CombinedSearchFocusCard({ focusVideo, setFocusVideo, focusVideoState, s
                             </form>
     }; 
 
+    if (focusVideo.clips) {
+        timeline = renderTimeline();
+    };
+
     return(
         <div className="col">
             <div className="row d-flex">
@@ -192,7 +210,7 @@ function CombinedSearchFocusCard({ focusVideo, setFocusVideo, focusVideoState, s
                     <div className="card-body">
                         <h5 className="card-title">{ `${videoData.metadata.filename.split("-")[0]}` }</h5>
                         <p className="card-text">{ `${Math.round(videoData.metadata.duration / 60)} minutes` }</p>
-                        { renderTimeline() }
+                        { timeline }
                     </div>
                 </div>
             </div>
