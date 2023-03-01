@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/twelve-labs-zenith/static/css/main.736cccd2.css",
-    "main.js": "/twelve-labs-zenith/static/js/main.c3fb4ad9.js",
+    "main.css": "/twelve-labs-zenith/static/css/main.1438b1d3.css",
+    "main.js": "/twelve-labs-zenith/static/js/main.fac2e1f0.js",
     "index.html": "/twelve-labs-zenith/index.html",
-    "main.736cccd2.css.map": "/twelve-labs-zenith/static/css/main.736cccd2.css.map",
-    "main.c3fb4ad9.js.map": "/twelve-labs-zenith/static/js/main.c3fb4ad9.js.map"
+    "main.1438b1d3.css.map": "/twelve-labs-zenith/static/css/main.1438b1d3.css.map",
+    "main.fac2e1f0.js.map": "/twelve-labs-zenith/static/js/main.fac2e1f0.js.map"
   },
   "entrypoints": [
-    "static/css/main.736cccd2.css",
-    "static/js/main.c3fb4ad9.js"
+    "static/css/main.1438b1d3.css",
+    "static/js/main.fac2e1f0.js"
   ]
 }
