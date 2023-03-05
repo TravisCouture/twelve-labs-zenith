@@ -208,8 +208,8 @@ function CombinedSearchFocusCard({ focusVideo, setFocusVideo, focusVideoState, s
             <div className="card shadow">
                 <div className="card-body">
                     <h5 className="card-text">Combined Query Controls</h5>
+                    { queryControls }
                 </div>
-                { queryControls }
             </div>
             <div className="card shadow mt-1">
                 <div className="ratio ratio-21x9">
